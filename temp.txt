@@ -1,0 +1,3 @@
+php artisan make:controller Api/UserController --resource --api
+php artisan make:resource ProductResource
+php artisan make:resource ProductCollection
