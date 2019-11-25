@@ -34,3 +34,10 @@ Route::namespace('Api')->group(function() {
     });
     Route::resource('/users', 'UserController');
 });
+
+
+Route::prefix('v1')->namespace('Api')->group(function() {
+    Route::name('real_states')->group(function() {
+        Route::resource('real-states', 'RealStateController@index');
+    });
+});
