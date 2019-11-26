@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class RealState extends Model
 {
-    //
     protected $appends = ['_links', 'thumb'];
+
     protected $table = 'real_state';
+
     protected $fillable = [
         'title', 'description', 'content', 'price', 'slug', 'bedrooms', 'bathrooms', 'property_area', 'total_property_area', 'user_id'
     ];

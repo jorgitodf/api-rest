@@ -32,7 +32,6 @@ class RealStateController extends Controller
             return response()->json([
                 'data' => $realState
             ], 200);
-
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
@@ -43,16 +42,13 @@ class RealStateController extends Controller
     {
         $data = $request->all();
         $images = $request->file('images');
-
-        try {
+        try{
             $data['user_id'] = auth('api')->user()->id;
             $realState = $this->realState->create($data);
-
-            if (isset($data['categories']) && count($data['categories'])) {
+            if(isset($data['categories']) && count($data['categories'])) {
                 $realState->categories()->sync($data['categories']);
             }
-
-            if ($images) {
+            if($images) {
                 $imagesUploaded = [];
                 foreach ($images as $image) {
                     $path = $image->store('images', 'public');
@@ -60,13 +56,11 @@ class RealStateController extends Controller
                 }
                 $realState->photos()->createMany($imagesUploaded);
             }
-
             return response()->json([
                 'data' => [
                     'msg' => 'Imóvel cadastrado com sucesso!'
                 ]
             ], 200);
-
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
@@ -77,16 +71,13 @@ class RealStateController extends Controller
     {
         $data = $request->all();
         $images = $request->file('images');
-
-        try {
+        try{
             $realState = auth('api')->user()->real_state()->findOrFail($id);
             $realState->update($data);
-
-            if (isset($data['categories']) && count($data['categories'])) {
+            if(isset($data['categories']) && count($data['categories'])) {
                 $realState->categories()->sync($data['categories']);
             }
-
-            if ($images) {
+            if($images) {
                 $imagesUploaded = [];
                 foreach ($images as $image) {
                     $path = $image->store('images', 'public');
@@ -94,13 +85,11 @@ class RealStateController extends Controller
                 }
                 $realState->photos()->createMany($imagesUploaded);
             }
-
             return response()->json([
                 'data' => [
                     'msg' => 'Imóvel atualizado com sucesso!'
                 ]
             ], 200);
-
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
@@ -112,13 +101,11 @@ class RealStateController extends Controller
         try{
             $realState = auth('api')->user()->real_state()->findOrFail($id);
             $realState->delete();
-
             return response()->json([
                 'data' => [
                     'msg' => 'Imóvel removido com sucesso!'
                 ]
             ], 200);
-
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
